@@ -12,6 +12,11 @@ std::string User::getName() const
 	return name;
 }
 
+std::string User::getPassword() const
+{
+	return password;
+}	
+
 bool User::checkPassword(const std::string& _password) const
 {
 	return password == _password;

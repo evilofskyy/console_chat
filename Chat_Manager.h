@@ -21,8 +21,8 @@ private:
     void saveUsersToFile() const;
     void loadMessagesFromFile();
     void saveMessagesToFile() const;
-    std::string getUsersFilename() const { return "users.dat"; }
-    std::string getMessagesFilename() const { return "messages.dat"; }
+    std::string getUsersFilename() const { return "users.txt"; }
+    std::string getMessagesFilename() const { return "messages.txt"; }
 
     // Вспомогательные методы
     bool userExists(const std::string& login) const;

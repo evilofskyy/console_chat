@@ -12,7 +12,8 @@ public:
 
 	std::string getLogin() const;
 	std::string getName() const;
+	std::string getPassword() const;
 
-	const bool checkPassword(const std::string& _password) const;
+	bool checkPassword(const std::string& _password) const;
 };
 
