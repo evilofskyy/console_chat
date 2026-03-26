@@ -1,4 +1,6 @@
-﻿#include "Chat_Manager.h"
+﻿#define _CRT_SECURE_NO_WARNINGS  // отключает предупреждения о localtime в Visual Studio
+
+#include "Chat_Manager.h"
 #include <iostream>
 #include <sstream>
 #include <algorithm>
@@ -67,7 +69,8 @@ void ChatManager::loadMessagesFromFile() {
             std::getline(ss, recipient, ':') &&
             std::getline(ss, text, ':') &&
             std::getline(ss, timeStr)) {
-            Message msg(sender, recipient, text);
+            std::time_t time = static_cast<std::time_t>(std::stoll(timeStr));
+            Message msg(sender, recipient, text, time);
             allMessages.push_back(msg);
         }
     }
@@ -124,7 +127,7 @@ std::vector<Message> ChatManager::getMessagesForUser(const std::string& userLogi
         bool isRecipient = (msg.getRecipient() == userLogin);
         bool isSender = (msg.getSender() == userLogin);
 
-        if (onlyPrivate){
+        if (onlyPrivate) {
             if ((isRecipient || isSender) && msg.getRecipient() != "ALL") {
                 userMessages.push_back(msg);
             }
@@ -199,7 +202,7 @@ void ChatManager::sendPrivateMessage(const std::string& recipientLogin,
         throw std::runtime_error("Recipient does not exist");
     }
 
-    Message msg(currentUser->getLogin(), recipientLogin, message);
+    Message msg(currentUser->getLogin(), recipientLogin, message, std::time(nullptr));
     allMessages.push_back(msg);
     saveMessagesToFile();
 }
@@ -215,7 +218,7 @@ void ChatManager::sendPublicMessage(const std::string& message) {
         throw std::invalid_argument("Message cannot be empty");
     }
 
-    Message msg(currentUser->getLogin(), "ALL", message);
+    Message msg(currentUser->getLogin(), "ALL", message, std::time(nullptr));
     allMessages.push_back(msg);
     saveMessagesToFile();
 }

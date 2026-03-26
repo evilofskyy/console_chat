@@ -1,2 +1,6 @@
 ﻿  chat_app.cpp
+  Chat_Manager.cpp
+  Message.cpp
+  User.cpp
+  Создание кода...
   chat_app.vcxproj -> C:\Users\first\chat_app\x64\Debug\chat_app.exe
