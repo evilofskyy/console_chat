@@ -1,6 +1,26 @@
 ﻿#include <iostream>
 #include <limits>
+#include <string>
 #include "Chat_Manager.h"
+
+// Функция безопасного ввода целого числа
+int getIntInput(const std::string& prompt) {
+    int value;
+    while (true) {
+        std::cout << prompt;
+        std::cin >> value;
+
+        if (std::cin.fail()) {
+            std::cin.clear(); // сбрасываем флаг ошибки
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Ошибка: введите число.\n";
+        }
+        else {
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            return value;
+        }
+    }
+}
 
 void clearInput() {
     std::cin.clear();
@@ -12,7 +32,6 @@ void showMainMenu() {
     std::cout << "1. Регистрация\n";
     std::cout << "2. Вход\n";
     std::cout << "3. Выход\n";
-    std::cout << "Выберите действие: ";
 }
 
 void showUserMenu() {
@@ -24,7 +43,6 @@ void showUserMenu() {
     std::cout << "5. Список пользователей\n";
     std::cout << "6. Очистить мои сообщения\n";
     std::cout << "7. Выйти из аккаунта\n";
-    std::cout << "Выберите действие: ";
 }
 
 int main() {
@@ -34,9 +52,7 @@ int main() {
     while (running) {
         if (!manager.isLoggedIn()) {
             showMainMenu();
-            int choice;
-            std::cin >> choice;
-            clearInput();
+            int choice = getIntInput("Выберите действие: ");
 
             switch (choice) {
             case 1: { // Регистрация
@@ -82,9 +98,7 @@ int main() {
         }
         else {
             showUserMenu();
-            int choice;
-            std::cin >> choice;
-            clearInput();
+            int choice = getIntInput("Выберите действие: ");
 
             switch (choice) {
             case 1: { // Личное сообщение
