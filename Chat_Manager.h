@@ -9,6 +9,10 @@
 #include "User.h"
 #include "Message.h"
 
+// Теги для выбора формата форматирования
+struct TextFormat {};
+struct JsonFormat {};
+
 class ChatManager {
 private:
     std::map<std::string, std::shared_ptr<User>> users;
@@ -26,7 +30,7 @@ private:
     bool userExists(const std::string& login) const;
     void validateUserInput(const std::string& login, const std::string& password, const std::string& name) const;
     std::vector<Message> getMessagesForUser(const std::string& userLogin, bool onlyPrivate) const;
-    std::string formatTime(std::time_t time) const;  // <--- добавлено
+    std::string formatTime(std::time_t time) const;
 
 public:
     ChatManager();
@@ -47,4 +51,12 @@ public:
 
     void clearCurrentUserMessages();
     bool doesUserExist(const std::string& login) const;
+
+    // Новые методы для получения сырых сообщений (для демонстрации шаблонов)
+    std::vector<Message> getPrivateMessagesRaw() const;
+    std::vector<Message> getPublicMessagesRaw() const;
 };
+
+// Шаблонная функция форматирования сообщений
+template<typename Format>
+std::string formatMessage(const Message& msg, std::time_t currentTime, const std::string& currentUserLogin = "");
